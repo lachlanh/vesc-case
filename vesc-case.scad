@@ -6,6 +6,22 @@ module vescScrewMount(x=0,y=0) {
     };
 }
 
+module cornerPost(x=0,y=0) {
+    translate([x,y,0])
+        difference() {
+        cylinder(40,5,5, $fn=50);
+        
+    };
+}
+
+module cornerScrew(x=0,y=0) {
+    translate([x,y,35])
+    union() {
+        cylinder(13,vescScrew,vescScrew, $fn=50);
+        translate([0,0,10])cylinder(3,vescScrew*2,vescScrew*2, $fn=50);
+    }
+}
+
 
 bikeBolt = 3.8;
 bikeBoltOffset = bikeBolt/2;
@@ -29,13 +45,21 @@ difference() {
     minkowski() {
         union() {
             cube([caseWidth,caseLength,caseHeight]);
+            
      
         }
         sphere(caseRounding,$fn=50);
     };
     //interior cutout
-    translate([caseRounding,-caseOpening,caseRounding]) cube([caseWidth,caseLength+caseRounding+caseOpening,caseHeight]);
-    
+//    translate([caseRounding,-caseOpening,caseRounding]) cube([caseWidth,caseLength+caseRounding+caseOpening,caseHeight]);
+    translate([caseRounding,caseRounding,caseRounding])
+    difference() {
+        cube([caseWidth,caseLength,caseHeight]);
+        cornerPost(0,0);
+        cornerPost(caseWidth,0);
+        cornerPost(caseWidth, caseLength);
+        cornerPost(0, caseLength);
+    }
     translate([((caseWidth-bikeConWidth)/2)+caseRounding,((caseLength-bikeConLength)/2)+caseRounding,0]){
     //bikeBolt holes
     translate([bikeBoltOffset,bikeBoltOffset,-1])cylinder(10,d1=bikeBolt,d2=bikeBolt, $fn=50);
@@ -44,6 +68,20 @@ difference() {
     translate([bikeConWidth-bikeBoltOffset,bikeConLength-bikeBoltOffset,-1])cylinder(10,d1=bikeBolt,d2=bikeBolt, $fn=50);
     }
     
+    cornerScrew(4,4);
+    cornerScrew(caseWidth+2,4);
+    cornerScrew(caseWidth+2, caseLength+2);
+    cornerScrew(4, caseLength+2);
+    
+    translate([-1,-1,42]) 
+    //translate([-1,-1,0]) 
+        cube([caseWidth*1.5,caseLength*1.5,caseHeight]);
+    
+    //bldc wire cutout
+    translate([((caseWidth-30)/2)+caseRounding,-5,caseRounding+3]) cube([30,20,10]);
+    
+    //power wire cutout
+    translate([((caseWidth-30)/2)+caseRounding,caseLength-5,13]) cube([30,20,10]);
 }
 
 //bike mount
@@ -71,10 +109,10 @@ translate([bikeBoltOffset,bikeBoltOffset,-1])cylinder(10,d1=bikeBolt,d2=bikeBolt
 
 
 //vesc mount
-translate([((caseWidth-vescMountWidth)/2)+caseRounding,((caseLength-vescMountLength)/2)+caseRounding,0])
+translate([((caseWidth-vescMountWidth)/2)+caseRounding,((caseLength-vescMountLength)/2)+caseRounding+20,caseRounding])
 
 union() {
-    cube([vescMountWidth,vescMountLength,1]);
+    //cube([vescMountWidth,vescMountLength,1]);
     
     //
     vescScrewMount(vescScrew, vescScrew);
