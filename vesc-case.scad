@@ -30,7 +30,7 @@ module cornerScrew(x=0,y=0) {
     }
 }
 
-caseBottom = false;
+caseBottom = true;
 
 bikeBolt = 3.8;
 bikeBoltOffset = bikeBolt/2;
@@ -102,7 +102,7 @@ difference() {
     translate([((caseWidth-30)/2)+caseRounding,caseLength-5,13]) cube([30,20,10]);
     
     //vesc usb cutout
-    translate([-1,((caseLength-vescMountLength)/2)+caseRounding+17+11,13]) 
+    translate([-1,((caseLength-vescMountLength)/2)+caseRounding+17+8,13]) 
     cube([30,13,9]);
 }
 
