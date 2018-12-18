@@ -6,6 +6,14 @@ module vescScrewMount(x=0,y=0) {
     };
 }
 
+module arduinoScrewMount(x=0,y=0) {
+    translate([x,y,0])
+        difference() {
+        cylinder(7,2.5,1.5, $fn=50);
+        translate([0,0,-1])cylinder(10,arduinoScrew,arduinoScrew, $fn=50);
+    };
+}
+
 module cornerPost(x=0,y=0) {
     translate([x,y,0])
         difference() {
@@ -35,12 +43,17 @@ vescMountLength = 65.0-1.44-1.705;
 vescTopWidth = 14.55;
 vescTopOffset = (vescMountWidth-vescTopWidth)/2;
 
-caseWidth = 70;
-caseLength = 130;
+arduinoMountWidth = 36;
+arduinoMountLength = 56;
+arduinoScrew = 0.95;
+
+caseWidth = 63;
+caseLength = 110;
 caseHeight = 40;
 caseOpening = 5;
 
 caseRounding = 3;
+
 difference() {
     translate([caseRounding,caseRounding,caseRounding])
     minkowski() {
@@ -76,7 +89,7 @@ difference() {
     
     if (caseBottom) {
         translate([-1,-1,42])
-        cube([caseWidth*1.5,caseLength*1.5,caseHeight]);
+        cube([caseWidth*1.5,caseLength*1.5,caseHeight*1.5]);
     } else {
         translate([-1,-1,0]) 
         cube([caseWidth*1.5,caseLength*1.5,caseHeight+2.8]);
@@ -87,7 +100,12 @@ difference() {
     
     //power wire cutout
     translate([((caseWidth-30)/2)+caseRounding,caseLength-5,13]) cube([30,20,10]);
+    
+    //vesc usb cutout
+    translate([-1,((caseLength-vescMountLength)/2)+caseRounding+17+11,13]) 
+    cube([30,13,9]);
 }
+
 
 if (caseBottom) {
     //bike mount
@@ -111,7 +129,7 @@ if (caseBottom) {
     }
 
     //vesc mount
-    translate([((caseWidth-vescMountWidth)/2)+caseRounding,((caseLength-vescMountLength)/2)+caseRounding+20,caseRounding])
+    translate([((caseWidth-vescMountWidth)/2)+caseRounding,((caseLength-vescMountLength)/2)+caseRounding+17,caseRounding])
 
     union() {
         //cube([vescMountWidth,vescMountLength,1]);
@@ -123,4 +141,25 @@ if (caseBottom) {
         vescScrewMount(vescScrew+vescTopOffset,vescMountLength-vescScrew);
         vescScrewMount(vescMountWidth-vescScrew-vescTopOffset,vescMountLength-vescScrew);
     }
+} else {
+//arduino mount
+    //translate([69,0,0]) {
+//
+//    translate([0,0,-43]) {
+    
+//        translate([((caseWidth-arduinoMountWidth)/2)+caseRounding,((caseLength-arduinoMountLength)/2)+caseRounding,caseRounding])
+    translate([((caseWidth-arduinoMountWidth)/2)+caseRounding + arduinoMountWidth,8,46]) {
+        rotate([0,180,0]) {
+        union() {
+            cube([arduinoMountWidth,arduinoMountLength,1]);
+            
+            //
+            arduinoScrewMount(arduinoScrew, arduinoScrew);
+            arduinoScrewMount(arduinoMountWidth-arduinoScrew,arduinoScrew);
+            
+            arduinoScrewMount(arduinoScrew,arduinoMountLength-arduinoScrew);
+            arduinoScrewMount(arduinoMountWidth-arduinoScrew,arduinoMountLength-arduinoScrew);
+        }
+    
+    }}
 }
