@@ -30,7 +30,8 @@ module cornerScrew(x=0,y=0) {
     }
 }
 
-caseBottom = true;
+caseBottom = false;
+caseTop = true;
 
 bikeBolt = 3.8;
 bikeBoltOffset = bikeBolt/2;
@@ -90,7 +91,7 @@ difference() {
     if (caseBottom) {
         translate([-1,-1,caseHeight])
         cube([caseWidth*1.5,caseLength*1.5,caseHeight*1.5]);
-    } else {
+    } else if (caseTop) {
         translate([-1,-1,0]) 
         cube([caseWidth*1.5,caseLength*1.5,caseHeight]);
     }    
@@ -106,7 +107,7 @@ difference() {
     cube([30,13,9]);
     
     //ethernet cutout
-    translate([-1,8,28]) 
+    translate([-1,10,25]) 
     cube([30,16.25,14]);
 }
 
@@ -145,7 +146,7 @@ if (caseBottom) {
         vescScrewMount(vescScrew+vescTopOffset,vescMountLength-vescScrew);
         vescScrewMount(vescMountWidth-vescScrew-vescTopOffset,vescMountLength-vescScrew);
     }
-} else {
+} else if (caseTop) {
 //arduino mount
     //translate([69,0,0]) {
 //
