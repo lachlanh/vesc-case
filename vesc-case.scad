@@ -9,8 +9,8 @@ module vescScrewMount(x=0,y=0) {
 module arduinoScrewMount(x=0,y=0) {
     translate([x,y,0])
         difference() {
-        cylinder(7,2.5,1.5, $fn=50);
-        translate([0,0,-1])cylinder(10,arduinoScrew,arduinoScrew, $fn=50);
+        cylinder(9,2.5,1.5, $fn=50);
+        translate([0,0,-1])cylinder(12,arduinoScrew,arduinoScrew, $fn=50);
     };
 }
 
@@ -26,7 +26,7 @@ module cornerScrew(x=0,y=0) {
     translate([x,y,33])
     union() {
         cylinder(13,vescScrew,vescScrew, $fn=50);
-        translate([0,0,10])cylinder(3,vescScrew*2,vescScrew*2, $fn=50);
+        translate([0,0,10])cylinder(3,vescScrew*2.1,vescScrew*2.1, $fn=50);
     }
 }
 
@@ -88,22 +88,26 @@ difference() {
     cornerScrew(4, caseLength+2);
     
     if (caseBottom) {
-        translate([-1,-1,42])
+        translate([-1,-1,caseHeight])
         cube([caseWidth*1.5,caseLength*1.5,caseHeight*1.5]);
     } else {
         translate([-1,-1,0]) 
-        cube([caseWidth*1.5,caseLength*1.5,caseHeight+2.8]);
+        cube([caseWidth*1.5,caseLength*1.5,caseHeight]);
     }    
     
-    //bldc wire cutout
+    //power wire cutout
     translate([((caseWidth-30)/2)+caseRounding,-5,caseRounding+3]) cube([30,20,10]);
     
     //power wire cutout
-    translate([((caseWidth-30)/2)+caseRounding,caseLength-5,13]) cube([30,20,10]);
+    translate([((caseWidth-30)/2)+caseRounding,-5,22]) cube([30,20,10]);
     
     //vesc usb cutout
     translate([-1,((caseLength-vescMountLength)/2)+caseRounding+17+8,13]) 
     cube([30,13,9]);
+    
+    //ethernet cutout
+    translate([-1,8,28]) 
+    cube([30,16.25,14]);
 }
 
 
@@ -148,7 +152,7 @@ if (caseBottom) {
 //    translate([0,0,-43]) {
     
 //        translate([((caseWidth-arduinoMountWidth)/2)+caseRounding,((caseLength-arduinoMountLength)/2)+caseRounding,caseRounding])
-    translate([((caseWidth-arduinoMountWidth)/2)+caseRounding + arduinoMountWidth,8,46]) {
+    translate([((caseWidth-arduinoMountWidth)/2)+caseRounding + arduinoMountWidth,45,46]) {
         rotate([0,180,0]) {
         union() {
             cube([arduinoMountWidth,arduinoMountLength,1]);
