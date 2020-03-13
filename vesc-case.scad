@@ -8,9 +8,9 @@ module vescScrewMount(x=0,y=0) {
 
 module arduinoScrewMount(x=0,y=0) {
     translate([x,y,0])
-        difference() {
-        cylinder(9,2.5,1.5, $fn=50);
-        translate([0,0,-1])cylinder(12,arduinoScrew,arduinoScrew, $fn=50);
+        union() {
+        translate([0,0,0])cylinder(9,2.5,1.5, $fn=50);
+        translate([0,0,0])cylinder(11,arduinoScrew,arduinoScrew, $fn=50);
     };
 }
 
@@ -109,6 +109,13 @@ difference() {
     //ethernet cutout
     translate([-1,10,25]) 
     cube([30,16.25,14]);
+    
+    //top viewing panels
+    translate([8,40,42])
+    cube([6,60,3]);
+    
+    translate([55,40,42])
+    cube([6,60,3.3]);
 }
 
 
