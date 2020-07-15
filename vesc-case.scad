@@ -6,6 +6,14 @@ module vescScrewMount(x=0,y=0) {
     };
 }
 
+module screwMount(x=0, y=0, screw=0) {
+   translate([x,y,0])
+        difference() {
+        cylinder(10,3.5,2.5, $fn=50);
+        translate([0,0,-1])cylinder(13,screw,screw, $fn=50);
+    };
+} 
+
 module arduinoScrewMount(x=0,y=0) {
     translate([x,y,0])
         union() {
@@ -30,8 +38,8 @@ module cornerScrew(x=0,y=0) {
     }
 }
 
-caseBottom = false;
-caseTop = true;
+caseBottom = true;
+caseTop = false;
 
 bikeBolt = 3.8;
 bikeBoltOffset = bikeBolt/2;
@@ -43,6 +51,10 @@ vescMountWidth = 35.5;
 vescMountLength = 65.0-1.44-1.705;
 vescTopWidth = 14.55;
 vescTopOffset = (vescMountWidth-vescTopWidth)/2;
+
+focScrew = 1.7;
+focWidth = 60;
+focLength = 100;
 
 arduinoMountWidth = 36;
 arduinoMountLength = 56;
@@ -120,6 +132,7 @@ difference() {
 
 
 if (caseBottom) {
+    
     //bike mount
     translate([((caseWidth-bikeConWidth)/2)+caseRounding,((caseLength-bikeConLength)/2)+caseRounding,0])
     difference() {
@@ -141,10 +154,10 @@ if (caseBottom) {
     }
 
     //vesc mount
-    translate([((caseWidth-vescMountWidth)/2)+caseRounding,((caseLength-vescMountLength)/2)+caseRounding+17,caseRounding])
+    /*translate([((caseWidth-vescMountWidth)/2)+caseRounding,((caseLength-vescMountLength)/2)+caseRounding+17,caseRounding])
 
     union() {
-        //cube([vescMountWidth,vescMountLength,1]);
+        cube([vescMountWidth,vescMountLength,1]);
         
         //
         vescScrewMount(vescScrew, vescScrew);
@@ -152,6 +165,21 @@ if (caseBottom) {
         
         vescScrewMount(vescScrew+vescTopOffset,vescMountLength-vescScrew);
         vescScrewMount(vescMountWidth-vescScrew-vescTopOffset,vescMountLength-vescScrew);
+    }*/
+    
+    //foc mount TODO LH need to rotate all of this
+    translate([((caseWidth-focWidth)/2)+caseRounding,((caseLength-focLength)/2)+caseRounding+17,caseRounding])
+    union() {
+        
+        //cube([focWidth, focLength, 1]);
+        screwMount((focWidth/2), (2.2 + 1.75), focScrew);
+        
+        screwMount((4.55+1.75), (37.4+1.75), focScrew);
+        screwMount((focWidth - 4.55 - 1.75), (37.4+1.75), focScrew);
+        
+        screwMount((focWidth/2), (focLength - 2.2 - 1.75), focScrew);
+        screwMount((4.55+1.75), (focLength - 2.2 - 1.75), focScrew);
+        screwMount((focWidth - 4.55 - 1.75), (focLength - 2.2 - 1.75), focScrew);
     }
 } else if (caseTop) {
 //arduino mount
