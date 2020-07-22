@@ -61,7 +61,7 @@ arduinoMountLength = 56;
 arduinoScrew = 0.95;
 
 caseWidth = 63;
-caseLength = 110;
+caseLength = 115;
 caseHeight = 40;
 caseOpening = 5;
 
@@ -109,18 +109,19 @@ difference() {
     }    
     
     //power wire cutout
-    translate([((caseWidth-30)/2)+caseRounding,-5,caseRounding+3]) cube([30,20,10]);
-    
+    rotate([270,0,0]) {
+    translate([((caseWidth)/2)+caseRounding,-25,caseLength]) cylinder(30,13,13,$fn=50);
+    }
     //power wire cutout
-    translate([((caseWidth-30)/2)+caseRounding,-5,22]) cube([30,20,10]);
+    //translate([((caseWidth-30)/2)+caseRounding,-5,22]) cube([30,20,10]);
     
     //vesc usb cutout
-    translate([-1,((caseLength-vescMountLength)/2)+caseRounding+17+8,13]) 
-    cube([30,13,9]);
+    //translate([-1,((caseLength-vescMountLength)/2)+caseRounding+17+8,13]) 
+    //cube([30,13,9]);
     
     //ethernet cutout
-    translate([-1,10,25]) 
-    cube([30,16.25,14]);
+    //translate([-1,10,25]) 
+    //cube([30,16.25,14]);
     
     //top viewing panels
     translate([8,40,42])
@@ -128,7 +129,14 @@ difference() {
     
     translate([55,40,42])
     cube([6,60,3.3]);
+    
+    translate([0.5,((caseLength-60)/2)+caseRounding,(caseHeight/2)+caseRounding])
+    cube([4,60,6]);
+    
+    translate([caseWidth+caseRounding-1,((caseLength-60)/2)+caseRounding,(caseHeight/2)+caseRounding])
+    cube([3.5,60,6]);
 }
+
 
 
 if (caseBottom) {
@@ -167,12 +175,12 @@ if (caseBottom) {
         vescScrewMount(vescMountWidth-vescScrew-vescTopOffset,vescMountLength-vescScrew);
     }*/
     
-    //foc mount TODO LH need to rotate all of this
-    translate([((caseWidth-focWidth)/2)+caseRounding,((caseLength-focLength)/2)+caseRounding+17,caseRounding])
+    //foc mount 
+    translate([((caseWidth-focWidth)/2)+caseRounding,((caseLength-focLength)/2)+caseRounding,caseRounding])
     union() {
         
         //cube([focWidth, focLength, 1]);
-        screwMount((focWidth/2), (2.2 + 1.75), focScrew);
+        screwMount((focWidth/2), (2.2 + 1.25), focScrew);
         
         screwMount((4.55+1.75), (37.4+1.75), focScrew);
         screwMount((focWidth - 4.55 - 1.75), (37.4+1.75), focScrew);
